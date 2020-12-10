@@ -11,26 +11,26 @@ __author__ = "Junting Zhu"
 import sys
 import numpy
 
-def get_shortest_path(n, a):
+def get_shortest_path(target_number, possible_factors):
 	'''
 	Get the shortest path for a given target number with a list of possible factors
 
-	:param int n: The target number (N) which is a positive integer less than 2^60
-	:param [] a: The short listed array of unique integers, each less than 2^60
+	:param int target_number: The target number (N) which is a positive integer less than 2^60
+	:param [] possible_factors: The short listed array of unique integers, each less than 2^60
 	:return: The shortest path in string or -1 if shortest path not exist
 	'''
-	if len(a) == 0:
+	if len(possible_factors) == 0:
 		return '-1'
 		
-	for e in a:
-		if n > e and n % e == 0:
-			output = get_shortest_path(n / e, a)
-			#print(output)
-			if output != '-1':
-				return output + ' ' + str(n)
-		elif n == e:
-			#print(str(n) + ' ' + str(e))
-			return '1 ' + str(n)
+	for f in possible_factors:
+		if target_number > f and target_number % f == 0:
+			path = get_shortest_path(target_number / f, possible_factors)
+			#print(path)
+			if path != '-1':
+				return path + ' ' + str(target_number)
+		elif target_number == f:
+			#print(str(target_number) + ' ' + str(f))
+			return '1 ' + str(target_number)
 
 	return '-1'
 
@@ -51,32 +51,32 @@ def main():
 			print('Two integers required')
 			return
 
-		n = nk[0]
-		k = nk[1]
+		target_number = nk[0]
+		number_of_factors = nk[1]
 
-		if n >= 2 ** 60 or n <= 0:
+		if target_number >= 2 ** 60 or target_number <= 0:
 			print('N should be positive integer less than 2^60')
 			return
 
-		if k >= 32 or n <= 0:
+		if number_of_factors >= 32 or number_of_factors <= 0:
 			print('K should be positive integer less than 32')
 			return
 
 		# line 2, A is a set of unique integers, each less than 2^60, with K elements
 		print('Please type in a set of unique integers, each less than 2^60')
 		line = sys.stdin.readline()
-		a = map(int, line.split())
+		possible_factors = map(int, line.split())
 
-		if len(a) != k :
+		if len(possible_factors) != number_of_factors :
 			print('A should contains K elements')
 			return
 
-		if len(numpy.unique(a)) != k:
+		if len(numpy.unique(possible_factors)) != number_of_factors:
 			print('A should only contains unique integers')
 			return			
 
-		for e in a:
-			if e >= 2 ** 60 or n <= 0:
+		for f in possible_factors:
+			if f >= 2 ** 60 or f <= 0:
 				print('All elements in a should be positive integer less than 2^60')
 				return
 		
@@ -85,16 +85,16 @@ def main():
 		return
 
 	# end input validation  
-	sorted_a = sorted(a, reverse=True)
+	sorted_factors = sorted(possible_factors, reverse=True)
 		
-	for e in a:
-		if n % e != 0 or e == 1 or e > n:
-			sorted_a.remove(e)
-	#print(sorted_a)
+	for f in possible_factors:
+		if target_number % f != 0 or f == 1 or f > target_number:
+			sorted_factors.remove(f)
+	#print(sorted_factors)
 	
 	# recursive function for shortest path
 	print('Shortest path: ')
-	print(get_shortest_path(n, sorted_a))
+	print(get_shortest_path(target_number, sorted_factors))
 		
 
 if __name__ == '__main__':
