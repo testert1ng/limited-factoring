@@ -11,20 +11,20 @@ __author__ = "Junting Zhu"
 import sys
 import numpy
 
-def get_shortest_path(target_number, possible_factors):
+def get_shortest_path(target_number, factors):
 	'''
 	Get the shortest path for a given target number with a list of possible factors
 
 	:param int target_number: The target number (N) which is a positive integer less than 2^60
-	:param [] possible_factors: The short listed array of unique integers, each less than 2^60
+	:param [] factors: The short listed array of unique integers, each less than 2^60
 	:return: The shortest path in string or -1 if shortest path not exist
 	'''
-	if len(possible_factors) == 0:
+	if len(factors) == 0:
 		return '-1'
 		
-	for f in possible_factors:
+	for f in factors:
 		if target_number > f and target_number % f == 0:
-			path = get_shortest_path(target_number / f, possible_factors)
+			path = get_shortest_path(target_number / f, factors)
 			#print(path)
 			if path != '-1':
 				return path + ' ' + str(target_number)
@@ -84,17 +84,19 @@ def main():
 		print('Input value errors')
 		return
 
-	# end input validation  
+	# end input validation
+
 	sorted_factors = sorted(possible_factors, reverse=True)
+	factors = sorted_factors
 		
-	for f in possible_factors:
+	for f in sorted_factors:
 		if target_number % f != 0 or f == 1 or f > target_number:
-			sorted_factors.remove(f)
-	#print(sorted_factors)
+			factors.remove(f)
+	#print(factors)
 	
 	# recursive function for shortest path
 	print('Shortest path: ')
-	print(get_shortest_path(target_number, sorted_factors))
+	print(get_shortest_path(target_number, factors))
 		
 
 if __name__ == '__main__':
