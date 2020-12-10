@@ -11,20 +11,20 @@ __author__ = "Junting Zhu"
 import sys
 import numpy
 
-def get_shortest_path(target_number, factors):
+def get_shortest_path(target_number, shortlisted_factors):
 	'''
 	Get the shortest path for a given target number with a list of possible factors
 
 	:param int target_number: The target number (N) which is a positive integer less than 2^60
-	:param [] factors: The short listed array of unique integers, each less than 2^60
+	:param [] shortlisted_factors: The shortlisted array of unique integers, each less than 2^60
 	:return: The shortest path in string or -1 if shortest path not exist
 	'''
-	if len(factors) == 0:
+	if len(shortlisted_factors) == 0:
 		return '-1'
 		
-	for f in factors:
+	for f in shortlisted_factors:
 		if target_number > f and target_number % f == 0:
-			path = get_shortest_path(target_number / f, factors)
+			path = get_shortest_path(target_number / f, shortlisted_factors)
 			#print(path)
 			if path != '-1':
 				return path + ' ' + str(target_number)
@@ -33,6 +33,27 @@ def get_shortest_path(target_number, factors):
 			return '1 ' + str(target_number)
 
 	return '-1'
+
+def get_shortlisted_factors(target_number, possible_factors):
+	'''
+	Get the shortlisted factors which are 
+	1. sorted descending
+	2. not equal to 1 
+	3. not greater than target_number
+	4. can be divide by the target_number
+
+	:param int target_number: The target number (N) which is a positive integer less than 2^60
+	:param [] possible_factors: The array of unique integers, each less than 2^60
+	:return: The shortlisted factors which are sorted descending and
+	'''
+	sorted_factors = sorted(possible_factors, reverse=True)
+	shortlisted_factors = sorted_factors
+		
+	for f in sorted_factors:
+		if target_number % f != 0 or f == 1 or f > target_number:
+			shortlisted_factors.remove(f)
+
+	return shortlisted_factors
 
 def main():
 	'''
@@ -86,17 +107,12 @@ def main():
 
 	# end input validation
 
-	sorted_factors = sorted(possible_factors, reverse=True)
-	factors = sorted_factors
-		
-	for f in sorted_factors:
-		if target_number % f != 0 or f == 1 or f > target_number:
-			factors.remove(f)
-	#print(factors)
+	shortlisted_factors = get_shortlisted_factors(target_number, possible_factors)
+	#print(shortlisted_factors)
 	
 	# recursive function for shortest path
 	print('Shortest path: ')
-	print(get_shortest_path(target_number, factors))
+	print(get_shortest_path(target_number, shortlisted_factors))
 		
 
 if __name__ == '__main__':
