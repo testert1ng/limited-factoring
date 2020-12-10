@@ -47,7 +47,7 @@ def get_shortlisted_factors(target_number, possible_factors):
 	:return: The shortlisted factors which are sorted descending and
 	'''
 	sorted_factors = sorted(possible_factors, reverse=True)
-	shortlisted_factors = sorted_factors
+	shortlisted_factors = sorted(possible_factors, reverse=True)
 		
 	for f in sorted_factors:
 		if target_number % f != 0 or f == 1 or f > target_number:
