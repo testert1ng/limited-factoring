@@ -9,14 +9,14 @@ Given a set of potential factors, find the shortest (by number of factors, then 
 ```
 ### Folder structure
 
-- **README.pdf**: The report including all ducumentation for this challenge
-- **factoring.py**: The python solution for this challange
+- **README.pdf**: The report including all documentation for this challenge
+- **factoring.py**: The python solution for this challenge
 - **test_factoring.py**: The test for factoring.py
 - **requirements.txt**: Required libs for the solution and test 
 
 ## 0x01 Instructions for Solution
 
-### Install requiremnets
+### Install requirements
 
 ```
 pip install -r requirements.txt
@@ -42,7 +42,7 @@ There are generally 3 parts in the `factoring.py`, which are input validation, g
 
 ### Input Validation
 
-The input validation strictly limit the input values are follwing the constraints.
+The input validation strictly limits the input values are following the constraints.
 
 - Target number (N) can only be positive integer less than 2^60
 - Number of factors (K) is a positive integer less than 32
@@ -52,15 +52,15 @@ If the values are out of range, or some of the possible factors are duplicate, o
 
 ### Get shortlisted factors
 
-This is a filter for the possible factors and prepare the usefule factors for the shortest path.
+This is a filter for the possible factors and prepare the useful factors for the shortest path.
 
-To get the shortest path, it has to use large factors as much as possible. So the shortlist is sorted descending.
+To get the shortest path, it must use large factors as much as possible. So, the shortlist is sorted descending.
 
 The numbers which cannot be fully divided by the target is also not usable for the calculation, so just trim them out to reduce the loop.
 
 ### Get shortest path
 
-This is the core search function and designed as recursive function to get the shortest when the factors are able to be divided by the target number.
+This is the core search function and designed as recursive function to get the shortest when the factors can be divided by the target number.
 
-And the return value build up the whole path when it reachs 1, the end of the recrusive.
+And the return value builds up the whole path when it reaches 1, the end of the recursive.
 
